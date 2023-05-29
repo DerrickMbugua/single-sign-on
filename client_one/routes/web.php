@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Str;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('login', [AuthController::class, "redirect"]);
+
+Route::get('callback', [AuthController::class, "callback"]);
