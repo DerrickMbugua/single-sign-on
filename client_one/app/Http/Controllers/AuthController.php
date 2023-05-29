@@ -15,7 +15,7 @@ class AuthController extends Controller
     {
 
         $request->session()->put('state', $state = Str::random(40));
-        Log::info("State: " .$state);
+        Log::info("State: " . $state);
 
         $query = http_build_query([
             'client_id' => '9948865f-bbf7-4f5d-9d07-2d412b9df4c3',
@@ -38,13 +38,32 @@ class AuthController extends Controller
             InvalidArgumentException::class
         );
 
-        $response = Http::asForm()->post('http://127.0.0.1:8000/oauth/token', [
-            'grant_type' => 'authorization_code',
-            'client_id' => '9948865f-bbf7-4f5d-9d07-2d412b9df4c3',
-            'client_secret' => '7GVcnk1mwZGF1m9iS0GR57k2PTRks9Y45cIUlbiY',
-            'redirect_uri' => 'http://127.0.0.1:8080/callback',
-            'code' => $request->code,
-        ]);
+        $response = Http::asForm()->post(
+            'http://127.0.0.1:8000/oauth/token',
+            [
+                'grant_type' => 'authorization_code',
+                'client_id' => '9948865f-bbf7-4f5d-9d07-2d412b9df4c3',
+                'client_secret' => '7GVcnk1mwZGF1m9iS0GR57k2PTRks9Y45cIUlbiY',
+                'redirect_uri' => 'http://127.0.0.1:8080/callback',
+                'code' => $request->code,
+            ]
+        );
+
+        $request->session()->put($response->json());
+
+        return redirect("/authuser");
+    }
+
+    public function authUser(Request $request)
+    {
+        $accessToken = $request->session()->get("access_token");
+
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer '.$accessToken,
+        ])->get('http://127.0.0.1:8000/api/user');
+         
+        return $response->json();
 
         return $response->json();
     }

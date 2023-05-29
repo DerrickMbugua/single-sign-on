@@ -24,3 +24,5 @@ Route::get('/', function () {
 Route::get('login', [AuthController::class, "redirect"]);
 
 Route::get('callback', [AuthController::class, "callback"]);
+
+Route::get("authuser", [AuthController::class, "authUser"]);
