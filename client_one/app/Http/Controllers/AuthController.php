@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
 
     // redirect to login
-    public function redirect(Request $request)
+    public function getLogin(Request $request)
     {
 
         $request->session()->put('state', $state = Str::random(40));
@@ -29,7 +29,7 @@ class AuthController extends Controller
         return redirect('http://127.0.0.1:8000/oauth/authorize?' . $query);
     }
 
-    public function callback(Request $request)
+    public function getCallback(Request $request)
     {
         $state = $request->session()->pull('state');
 
@@ -54,7 +54,7 @@ class AuthController extends Controller
         return redirect("/authuser");
     }
 
-    public function authUser(Request $request)
+    public function connectUser(Request $request)
     {
         $accessToken = $request->session()->get("access_token");
 

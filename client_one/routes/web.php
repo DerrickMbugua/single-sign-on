@@ -21,8 +21,8 @@ Route::get('/', function () {
 });
 
 
-Route::get('login', [AuthController::class, "redirect"]);
+Route::get('/sso/login', [AuthController::class, "getLogin"])->name('sso.login');
 
-Route::get('callback', [AuthController::class, "callback"]);
+Route::get('callback', [AuthController::class, "getCallback"])->name('sso.callback');
 
-Route::get("authuser", [AuthController::class, "authUser"]);
+Route::get("/sso/connect", [AuthController::class, "connectUser"])->name('sso.connect');
