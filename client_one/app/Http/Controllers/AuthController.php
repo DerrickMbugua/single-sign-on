@@ -21,7 +21,7 @@ class AuthController extends Controller
             'client_id' => '9948865f-bbf7-4f5d-9d07-2d412b9df4c3',
             'redirect_uri' => 'http://127.0.0.1:8080/callback',
             'response_type' => 'code',
-            'scope' => '',
+            'scope' => 'view-user',
             'state' => $state,
             'code_challenge_method' => 'S256',
         ]);
